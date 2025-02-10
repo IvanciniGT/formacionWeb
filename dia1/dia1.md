@@ -676,3 +676,99 @@ Si mi usuario aprieta en el botón de enviar formulario, quiero que:
 - Mientras tanto quiero poder estar escuchando si el usuario aprieta en otro botón cancelar... para cancelar el envío del formulario
 
 En un backend, tengo procesos mucho más secuenciales... y síncronos en el 90% de los casos.
+
+
+---
+
+
+Monto un frontal con un formulario:
+Cuando hagan clic en ENVIAR (EVENTO), quiero:
+1- mandar una petición a un servidor para que guarde los datos del formulario.
+   Pregunta... eso va a ser instantáneo? NO
+   Quiero quedarme (quiero que mi programa) se quede esperando la respuesta sin hacer nada mientras? NO, ni de coña...
+   Si hago eso... el usuario no podría ni hacer click en otro sitio de la pantalla... no atendería a su petición.
+   Lo que si quiero es que cuando la petición haya sido respondida... mostrar un mensaje al usuario: "Su petición ha sido procesada correctamente"
+2- Mientras tanto, quiero que en la pantalla aparezca una ruedita girando... para que el usuario sepa que algo está pasando.
+3- Quiero también después activarle un botón de cancelar... que antes del envío no esté activo.
+
+
+---
+
+El mundo de los frontales WEB ha cambiado de sobremanera!
+
+- Antiguamente (en los albores del mundo web), los desarrolladores web creábamos ficheros html estáticos... que guardábamos en un servidor web... y que el servidor entregaba al navegador web... y el navegador web los renderizaba en pantalla.
+- Más adelante, los desarrolladores web creábamos programas que se instalaban en el servidor... Y cuando se recibía una petición en el servidor... el servidor ejecutaba el programa... y ese programa generaba un documento HTML que devolvía al navegador... y el navegador lo renderizaba en pantalla.
+- Hoy en día los desarrolladores web hacemos programas en JS, que se ejecutarán dentro del navegador... y que generan dentro del propio navegador el documento HTML que se renderizará en pantalla.
+  Puede ser que para ello, el programa JS que monte llame a un servidor para recuperar ciertos datos, que el servidor entregará normalmente en un formato NEUTRO (que no lleva información de FORMATO... solo los datos: JSON)
+
+  Antiguamente eso lo hacíamos con AJAX... hoy en día tenemos opciones mucho más avanzadas.
+
+  De hecho, hoy en día hay un nuevo estandar del W3C que se llama WEB COMPONENTS... que nos permite crear COMPONENTES WEB.
+
+[
+    {
+        "pedido": 1,
+        "fecha": "2021-10-01",
+        "productos": [
+            {
+                "producto": "camiseta",
+                "cantidad": 2
+            },
+            {
+                "producto": "pantalón",
+                "cantidad": 1
+            }
+        ]
+    },
+    {
+        "pedido": 2,
+        "fecha": "2021-10-02",
+        "productos": [
+            {
+                "producto": "zapatos",
+                "cantidad": 1
+            },
+            {
+                "producto": "cinturón",
+                "cantidad": 1
+            }
+        ]
+    }
+]
+
+# Componente web
+
+HTML trae su juego de marcas predefinido.
+
+En HTML existe la marca:
+<usuario id="1092834"> </usuario>
+
+No existe la marca `usuario`.
+Pero... quizás a mi me puede interesar CREARLA... definir esa MARCA HTML...
+Y asociado a esa marca HTML quiero explicarle al navegador:
+- Como debe renderizarla
+- Qué comportamiento debe tener
+
+De forma que cuando el navegador se encuentre la marca HTML <usuario> en un documento HTML... 
+1. llame a un servidor a la URL: http://miservidor/api/v1/usuairo/1092834
+2. Capture la respuesta JSON del servidor
+3. Convierta esos datos a un DIV HTML, donde se muestre el nombre del usuario, su email, foto...
+4. Y que en ese DIV dentro, exista un botón ENVIAR MENSAJE
+5. Y que si el usuario pulsa, se le muestre un formulario donde pueda meter un asunto y un mensaje... y que al pulsar ENVIAR, se envíe un mensaje al servidor, a un servicio de envío de emails... y que el usuario que usa la app, ni siquiera conozca el email del destinatario.
+
+Y quiero poder usar esa marca HTML de ahora en adelante en 50 páginas de mi app...
+De ésta app que estoy montando, de la que hice el mes pasado y de la que voy a hacer mañana...
+Porque posiblemente en varias apps voy a necesitar mostrar los datos de un usuario que existe en mi organización.
+
+La cosa es que para hacer uso de esta funcionalidad, lo normal es utilizar librerías que existen en JS... muy especializadas en ello:
+- Angular
+- React
+- VueJS
+- Polymer
+- ...
+
+La cosa es que todos esos frameworks, en ellos, acabo escribiendo código JS (o TS)
+Y necesito generar HTML
+Y necesito generar CSS
+
+Este curso es un previo a cualquiera de los otros... Un "must" para poder posteriormente lidiar con esos frameworks.
