@@ -1,4 +1,5 @@
 :root {
+    --ancho-icono-usuario: 25px;
     --ancho-icono: 25px;
     --ancho-minimo-menu: 40px;
     --ancho-menu: 500px;
@@ -27,6 +28,11 @@ header {
 
     transition: width 0.5s ease-in-out;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: min-content 1fr;
+
 }
 
 header:hover {
@@ -37,7 +43,6 @@ header h1 {
     display: flex;
     align-items: center;
     background-color:  rgb(71, 101, 16);
-    width: calc( var(--ancho-menu) + var(--ancho-minimo-menu) );
     white-space: nowrap;
     left: 0;
     position: relative;
@@ -47,6 +52,9 @@ header h1 {
     font-size: 1.2em;
     line-height: 1.2em;
     color: white;
+    grid-row: 1;
+    grid-column: 1/3;
+    pointer-events: none;
 }
 
 header h1::before {
@@ -66,6 +74,11 @@ header:hover h1 {
     left: -40px;
 }
 
+header nav {
+    grid-row: 2;
+    grid-column: 1;
+}
+
 header nav ol {
     margin: 0;
     padding: 0;
@@ -82,11 +95,12 @@ header nav li {
     padding: 0.5em 0.5em 0.5em 1.5em;
     transition: background-color 0.25s ease-in-out;
     font-size: 0.8em;
+    white-space: nowrap;
 }
 
 header:hover nav li:hover {
     background-color: rgb(185, 196, 87);
-    border-right: 2px solid rgb(239, 255, 97);
+    border-right: 2px solid rgb(90, 95, 41);
     cursor: pointer;
 }
 
@@ -96,8 +110,109 @@ header nav li a {
     color: black;
 }
 
-header nav {
-    width: var(--ancho-menu);
+#user-info {
+    background-color:  rgb(71, 101, 16);
+    display: flex;
+    grid-row: 1;
+    grid-column: 2;
+    z-index: 100;
+    align-items: center;
+    justify-content: flex-end;
+    color: white;
+    font-size: 0.8em;
+}
+#user-info button {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+#user-info img{
+    width: var(--ancho-icono-usuario);
+    height: var(--ancho-icono-usuario);
+    margin-right: 1em;
+}
+
+
+
+
+header aside {
+    grid-row: 2;
+    grid-column: 2;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 1em 1em 1em;
+    font-size: 0.8em;
+    background-color: rgb(252, 251, 240);
+}
+
+header aside h2{
+    font-size: 1em;
+}
+
+#warnings h2{
+    color: rgb(134, 76, 76);
+    display: inline-block;
+}
+#news h2{
+    color: rgb(51, 74, 106);
+    display: inline-block;
+}
+#tutorials h2{
+    color: rgb(125, 95, 55);
+    display: inline-block;
+}
+
+
+
+header aside ul {
+    margin: 0;
+    padding: 0;
+}
+
+header aside li {
+    list-style-type: none;
+    width: 260px;
+}
+
+#warnings li {
+    border: rgb(134, 76, 76) solid 1px;
+    margin: 1em;
+    padding: 1em;
+    background-color: rgb(255, 220, 220);
+    color: rgb(134, 76, 76);
+    border-radius: 0.25em;
+    width: 
+}
+/*Al primer li quitarle el margen superior*/
+#warnings li:first-child {
+    margin-top: 0;
+}
+
+#warnings:has(li) {
+    display: block;
+}
+#warnings {
+    display: none;
+}
+#warnings::before {
+    content: '⚠';
+    display: inline-block;
+    font-size: 1em;
+    font-weight: bold;
+    color: rgb(134, 76, 76);
+}
+#news::before {
+    content: 'ⓘ';
+    display: inline-block;
+    font-size: 1em;
+    font-weight: bold;
+    color: rgb(51, 74, 106);
+}
+#tutorials::before {
+    content: '🧑‍🎓';
+    display: inline-block;
+    font-size: 1em;
+    font-weight: bold;
+    color: rgb(125, 95, 55);
 }
 
 main {
@@ -118,12 +233,6 @@ main {
 
 aside {
     background-color: rgb(220,220,255);
-    border: solid 1px black;
-    height: 50px;
 
     transition: background-color 0.5s ease-in-out;
-}
-
-aside:hover {
-    background-color: blue;
 }

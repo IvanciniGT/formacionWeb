@@ -160,3 +160,47 @@ DIV (flex)
     C
     B
     A
+
+
+
+---
+
+MENU/HEADER -> TABLA
+
+ +-----------------+-------------------------+
+ | Nombre App      |        Usuario  [SALIR] | 
+ +-----------------+-------------------------+
+ | Opción Menu 1   |   Avisos                |
+ | Opción Menu 2   |     Aviso 1             |
+ | Opción Menu 3   |     Aviso 2             |
+ | Opción Menu 4   |   Novedades             |
+ |                 |     Novedad 1           |
+ |                 |     Novedad 2           |
+ |                 |     Novedad 3           |
+ |                 |   Videos tutoriales     |
+ |                 |     Video 1             |
+ |                 |     Video 2             |
+ +-----------------+-------------------------+
+
+Maravilloso 
+
+header:
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr *;
+
+h1:
+    grid-column: 1 / 3;
+    grid-row: 1 ;
+
+user-info:
+    grid-column: 2;
+    grid-row: 1;
+
+nav:
+    grid-column: 1;
+    grid-row: 2;
+
+aside:
+    grid-column: 2;
+    grid-row: 2;
