@@ -1,5 +1,6 @@
 :root {
-    --ancho-minimo-menu: 30px;
+    --ancho-icono: 25px;
+    --ancho-minimo-menu: 40px;
     --ancho-menu: 220px;
 }
 
@@ -8,11 +9,11 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    font-family: Arial, sans-serif;
 }
 
 header {
-    background-color:  rgb(255,220,220);
-    border: solid 1px black;
+    background-color:  rgb(142, 159, 109);
     padding: 0px;
 
     position: fixed;
@@ -25,6 +26,7 @@ header {
     overflow-x: hidden;
 
     transition: width 0.5s ease-in-out;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
 }
 
 header:hover {
@@ -32,11 +34,19 @@ header:hover {
 }
 
 header h1 {
-    width: var(--ancho-menu);
+    display: flex;
+    align-items: center;
+    background-color:  rgb(71, 101, 16);
+    width: calc( var(--ancho-menu) + var(--ancho-minimo-menu) );
     white-space: nowrap;
     left: 0;
     position: relative;
     transition: left 0.5s ease-in-out;
+    padding: 0.25em 0 0.25em 0;
+    margin: 0;
+    font-size: 1.2em;
+    line-height: 1.2em;
+    color: white;
 }
 
 header h1::before {
@@ -44,17 +54,47 @@ header h1::before {
     display: inline-block;
     background-image: url("./menu.png");
     background-size: contain;
-    width: 20px;
-    height: 20px;
+    filter: invert(1);
+    width: var(--ancho-icono);
+    height: var(--ancho-icono);
     cursor: pointer;
-    margin-left: 5px;
+    margin-left: calc( ( var(--ancho-minimo-menu) - var(--ancho-icono) ) / 2 ) ;
     margin-right: 15px;
 }
 
 header:hover h1 {
-    left: -25px;
+    left: -40px;
 }
 
+header nav ol {
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+header:hover nav ol {
+    opacity: 1;
+}
+header nav li {
+    list-style-type: none;
+    border-bottom:rgba(71, 101, 16, 0.583) solid 1px;
+    background-color: rgba(167, 197, 107);
+    padding: 0.5em 0.5em 0.5em 1.5em;
+    transition: background-color 0.25s ease-in-out;
+    font-size: 0.8em;
+}
+
+header:hover nav li:hover {
+    background-color: rgb(185, 196, 87);
+    border-right: 2px solid rgb(239, 255, 97);
+    cursor: pointer;
+}
+
+
+header nav li a {
+    text-decoration: none;
+    color: black;
+}
 
 header nav {
     width: var(--ancho-menu);
@@ -62,7 +102,6 @@ header nav {
 
 main {
     background-color: rgb(220,255,220);
-    border: solid 1px black;
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -73,6 +112,8 @@ main {
     width: calc( 100vw - var(--ancho-minimo-menu) );
 
     z-index: 10;
+
+    padding: 2em;
 }
 
 aside {

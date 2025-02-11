@@ -138,3 +138,25 @@ Además podemos cambiar la forma en la que se hace la progresión:
 - ease-in: Empieza lento
 - ease-out: Acaba lento
 - ease-in-out: Empieza lento, acelera y acaba lento
+
+
+
+DIV (flex)
+
+    A
+    B
+    C
+    D
+
+    si verlos en filas o columnas
+
+    A B C D
+
+    Si los quiero en orden directo o reverso
+
+    D C B A
+
+    D
+    C
+    B
+    A
