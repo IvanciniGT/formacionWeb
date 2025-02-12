@@ -52,19 +52,20 @@
             </aside>
         </header>
         <main>
-            <div id="toast-container">
-                <div id="toast1" class="toast error" onClick="clickOnToast('toast1')">
+
+            <button onClick="mostrarToast('toast-111', 'Soy el titulo', 'Soy el mensaje');">SACAR NUEVO TOAST</button>
+
+            <template id="toast-template">
+                <div class="toast error">
                     <div class="progress-bar"></div>
-                    <h3>Nuevo expediente</h3>
-                    <p>Menchu ha creado un nuevo expediente que debe tramitar. Pulse para verlo.</p>
+                    <h3>TITULO</h3>
+                    <p>TEXTO</p>
                 </div>
-                <div id="toast2" class="toast info" onClick="clickOnToast('toast2')">
-                    <div class="progress-bar"></div>
-                    <h3>Aviso de seguridad</h3>
-                    <p>Parece que un usuario a intentado acceder con su clave desde otro dispositivo. Pulse para revisarlo.</p>
-                </div>
-            </div>
+            </template>
         </main>
+        
         <aside>Contenido auxiliar</aside>
-    </body>
+
+        
+</body>
 </html>
