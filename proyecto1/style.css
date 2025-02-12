@@ -353,3 +353,97 @@ header button:hover {
     position: relative;
     z-index: 100;
 }
+
+
+
+/***************************************************************/
+#toast-container{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+#toast-container .toast {
+    border: 1px solid black;
+    width: 350px;
+    min-height: 75px;
+    border-radius: 5px;
+    margin-top: 20px;
+    overflow: hidden;
+    font-size: 0.8em;
+    padding: 0em 0em 1em 0em;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+}
+#toast-container .toast h3{
+    font-size: 1rem;
+    margin: 0.65em 2em 0.65em 3.2rem;
+}
+#toast-container .toast p{
+    margin: 0 2em 0 3.2rem;
+}
+
+#toast-container .toast::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    z-index: 100;
+}
+
+
+#toast-container .progress-bar {
+    height: 5px;
+    width: 50%;
+}
+#toast-container .progress-bar::before {
+    content: '';
+    display: block;
+    position: relative;
+    height: 5px;
+    width: 350px;
+}
+
+.error {
+    background-color: rgba(229, 182, 182, 0.504);
+    color: rgb(113, 19, 19);
+    border: solid 1px rgb(113, 19, 19);
+}
+
+
+.error::after {
+    content: '⚠' !important;
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgb(113, 19, 19);
+}
+
+.error .progress-bar {
+    background-color: rgb(113, 19, 19);
+}
+
+.error .progress-bar::before {
+    background-color: rgba(113, 19, 19, 0.298);
+}
+.info {
+    background-color: rgba(182, 182, 229, 0.504);
+    color: rgb(19, 19, 113);
+    border: solid 1px rgb(19, 19, 113);
+}
+
+.info::after {
+    content: 'ⓘ' !important;
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgb(19, 19, 113);
+}
+
+.info .progress-bar {
+    background-color: rgb(19, 19, 113);
+}
+
+.info .progress-bar::before {
+    background-color: rgba(19, 19, 113, 0.298);
+}
