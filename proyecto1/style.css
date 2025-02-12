@@ -376,7 +376,19 @@ header button:hover {
     position: relative;
     cursor: pointer;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+
+    opacity: 0;
+    transform: translateX(200px);
+
 }
+
+
+#toast-container .toast.show{
+    opacity: 1;
+    transform: translateX(0);
+}
+
 #toast-container .toast h3{
     font-size: 1rem;
     margin: 0.65em 2em 0.65em 3.2rem;
@@ -447,4 +459,10 @@ header button:hover {
 
 .info .progress-bar::before {
     background-color: rgba(19, 19, 113, 0.298);
+}
+
+.toast.hide {
+    opacity: 0;
+    transform:scale(0.75) !important;
+    transform: translateX(0) !important;
 }

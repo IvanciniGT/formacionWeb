@@ -5,7 +5,8 @@
         <meta charset="UTF-8">
         <title>Mi Aplicación</title>
         <link rel="stylesheet" href="./style.css">
-        <script src="./script.js" language="javascript"></script>
+        <script src="./script-toast.js" language="javascript"></script>
+        <script src="./script-login.js" language="javascript"></script>
     </head>
     <body>
         <header>
@@ -53,10 +54,11 @@
         </header>
         <main>
 
-            <button onClick="mostrarToast('toast-111', 'Soy el titulo', 'Soy el mensaje');">SACAR NUEVO TOAST</button>
+            <button onClick="showToast('Soy el titulo', 'Soy el mensaje', 'error', 10000, saluda );">SACAR NUEVO TOAST</button>
+            <button onClick="showToast('Soy el titulo', 'Soy el mensaje', 'info', 5000);">SACAR NUEVO TOAST</button>
 
             <template id="toast-template">
-                <div class="toast error">
+                <div class="toast">
                     <div class="progress-bar"></div>
                     <h3>TITULO</h3>
                     <p>TEXTO</p>
@@ -66,6 +68,10 @@
         
         <aside>Contenido auxiliar</aside>
 
-        
+        <script>
+            function saluda(){
+                alert('Hola');
+            }
+        </script>
 </body>
 </html>
