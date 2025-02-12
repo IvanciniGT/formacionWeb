@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <title>Mi Aplicación</title>
         <link rel="stylesheet" href="./style.css">
+        <script src="./script.js" language="javascript"></script>
     </head>
     <body>
         <header>
@@ -12,7 +13,12 @@
             <div id="user-info">
                 <img alt="Foto de menchu" src="./menchu.webp" >
                 Menchu
-                <button onClick="alert('Te desconectas!!!');"> Salir </button>
+                <button onClick="toogleLogout()"> Salir </button>
+            </div>
+            <div id="confirm-logout">
+                ¿Estas seguro?
+                <button onClick="toogleLogout()"> No</button>
+                <button onClick="logout()"> Si, quiero salir</button>
             </div>
             <nav>
                 <ol>
@@ -45,28 +51,8 @@
                 </div>
             </aside>
         </header>
-        <main><b>Contenido</b> <i>principal adkhskjdsah dkasklj dhkajshd kjash kjdashkjd hakjd haksjdh kjash dkjash dkjash dkjlash dkjashd kajshd aklsjhd kajk</i>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
-            <p>Una linea</p>
+        <main>
         </main>
         <aside>Contenido auxiliar</aside>
     </body>
 </html>
-
-<template></template>

@@ -121,7 +121,7 @@ header nav li a {
     color: white;
     font-size: 0.8em;
 }
-#user-info button {
+header button {
     margin-left: 1em;
     margin-right: 1em;
 }
@@ -180,7 +180,6 @@ header aside li {
     background-color: rgb(255, 220, 220);
     color: rgb(134, 76, 76);
     border-radius: 0.25em;
-    width: 
 }
 /*Al primer li quitarle el margen superior*/
 #warnings li:first-child {
@@ -235,4 +234,122 @@ aside {
     background-color: rgb(220,220,255);
 
     transition: background-color 0.5s ease-in-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************************************************/
+
+#warnings {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    transition-delay: 0.5s;
+}
+#warnings li {
+    animation: parpadeo 1s 3 ;
+    animation-delay: 1.5s;
+}
+
+@keyframes parpadeo {
+    0%{
+        opacity: 1;
+    }
+    40%{
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }    
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+#news {
+    opacity: 0;
+    transition: opacity 1s ease-in-out 1s;
+}
+
+#tutorials {
+    opacity: 0;
+    transition: opacity 1s ease-in-out 1.5s;
+}
+
+header:hover #warnings {
+    opacity: 1;
+}
+
+header:hover #news {
+    opacity: 1;
+}
+
+header:hover #tutorials {
+    opacity: 1;
+}
+
+.rotate {
+    animation: girar 1s infinite;
+}
+
+@keyframes girar {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#confirm-logout {
+    white-space: nowrap;
+}
+
+header  button {
+    background-color: rgb(101, 146, 17);
+    color: white;
+    border: solid 1px rgb(101, 146, 17);
+    padding: 0.25em 0.5em;
+    border-radius: 0.25em;
+    cursor: pointer;
+    margin-left: 0em;
+    white-space: nowrap;
+}
+
+header button:first-of-type{
+    margin-left: 1em;
+}
+
+header button:hover {
+    background-color: rgb(54, 75, 14);
+    color: white;
+    border: solid 1px rgb(211, 173, 0);
+    padding: 0.25em 0.5em;
+    border-radius: 0.25em;
+    cursor: pointer;
+}
+
+#confirm-logout {
+    color: white;
+    font-size: 0.8em;
+    grid-column: 2;
+    grid-row: 1;
+    display: none;
+    align-items: center;
+    justify-content: flex-end;
+    background-color:  rgb(71, 101, 16);
+    position: relative;
+    z-index: 100;
 }
