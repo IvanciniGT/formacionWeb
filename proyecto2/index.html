@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <!-- Las etiquetas meta son pistas/indicaciones que damos al navegador -->
+        <meta charset="UTF-8">
+        <title>Mi Aplicación</title>
+        <link rel="stylesheet" href="./style.css">
+        <script src="./typewriter.js"></script>
+    </head>
+    <body>
+        <div id="lugarDondeQuieroSacarElTexto"></div>
+        <div id="lugarDondeQuieroSacarElTexto2"></div>
+        <script>
+            const caracteristicas = {
+                cursor: '_',
+                velocidad: 200,
+                ocultarCursorAlFinalizar: true,
+            };
+            escribirPocoAPoco("Hola Mundo", "lugarDondeQuieroSacarElTexto", caracteristicas)
+            .then( 
+                () => escribirPocoAPoco("Adios Mundo", "lugarDondeQuieroSacarElTexto2", caracteristicas) 
+            );
+        </script>
+    </body>
+</html>
