@@ -1,109 +1,124 @@
 
-const tareasProgramadas = new Map();
+class Typewriter {
 
-const CaracteristicasPorDefecto = {
-    velocidad: 100,
-    cursor: '_',
-    velocidadParpadeoCursor: 500,
-    estiloTexto: undefined,
-    estiloCursor: undefined,
-    ocultarCursorAlFinalizar: false
+    static CaracteristicasPorDefecto = {
+        velocidad: 100,
+        cursor: '_',
+        velocidadParpadeoCursor: 500,
+        estiloTexto: undefined,
+        estiloCursor: undefined,
+        ocultarCursorAlFinalizar: false
+    }
+
+    constructor(elemento, textoAEscribir, caracteristicas, promesa){
+        this.elemento = elemento;
+        this.textoAEscribir = textoAEscribir;
+        this.promesa = promesa;
+        this.caracteristicas = caracteristicas;
+        this.posicionPorLaQueVoy=0;
+        this.siguienteTareaProgramadaId = undefined;
+        
+        this.ejecutarFuncionSiUnElementoEsBorrado( 
+            ()=> {
+                    this.siguienteTareaProgramadaId && clearTimeout(this.siguienteTareaProgramadaId);
+                    this.promesa.reject();
+                }
+        );
+
+    }
+
+    siguienteLetra(){
+        this.siguienteTareaProgramadaId = undefined;
+        this.posicionPorLaQueVoy++;
+    }
+
+    heAcabadoDeEscribir(){
+        return this.posicionPorLaQueVoy === this.textoAEscribir.length;
+    }
+
+    procesarSiguienteLetra(){
+        this.siguienteLetra();
+        this.escribirEnElHTMLHastaLaLetra();
+        this.siHayMasLetrasSeguirEscribiendo();
+        this.siNoHayMasLetrasFinalizar();
+    }
+
+    siHayMasLetrasSeguirEscribiendo(){
+        if (!this.heAcabadoDeEscribir()){ // Hay que escribir más letras
+            this.siguienteTareaProgramadaId = setTimeout( 
+                                                                    ()=> this.procesarSiguienteLetra()
+                                                                    ,this.caracteristicas.velocidad
+                                                                );
+        }
+    }
+
+    siNoHayMasLetrasFinalizar(){
+        if (this.heAcabadoDeEscribir()){ // No hay que escribir más letras
+            this.enSuCasoOcultarCursor();
+            this.promesa.resolve();
+        }
+    }
+
+    escribirEnElHTMLHastaLaLetra(){
+        const textoAEscribirActualmente = this.textoAEscribir.substring(0, this.posicionPorLaQueVoy);
+        this.elemento.querySelector('.estiloTexto').innerText = textoAEscribirActualmente;
+    }
+
+    enSuCasoOcultarCursor(){
+        if( this.caracteristicas.ocultarCursorAlFinalizar )
+            this.elemento.querySelector('.estiloCursor').style.visibility = 'hidden';
+    }
+
+    ejecutarFuncionSiUnElementoEsBorrado(funcionAEjecutar){
+        const observador = new MutationObserver(
+            mutaciones => mutaciones.forEach(
+                    mutacion => mutacion.removedNodes.forEach( 
+                        nodoEliminado => nodoEliminado === this.elemento && funcionAEjecutar()
+                    )
+            )
+        );
+        observador.observe(this.elemento.parentNode, {childList: true, subtree: true});
+    }
+
+    static configurarPromesa(){
+        const funcionesDeLaPromesa = { resolve: undefined, reject: undefined };
+        const promesa = new Promise( (resolve, reject) => {
+            funcionesDeLaPromesa.resolve = resolve;
+            funcionesDeLaPromesa.reject = reject;
+        });
+        return { promesa, funcionesDeLaPromesa };
+    }
+
+    static generoElementoDelTypeWriter(elemento, textoAEscribir, caracteristicas, promesa){
+        return new Typewriter(elemento, textoAEscribir, caracteristicas, promesa);
+    }
+
+    static completarConValoresPorDefecto(caracteristicas){
+        return { ...Typewriter.CaracteristicasPorDefecto, ...caracteristicas };
+    }
+
+    static crearEstructuraHTML(donde, caracteristicas){
+        const elementoDestino=document.getElementById(donde);
+
+        elementoDestino.innerHTML = `
+            <span class="estiloTexto   ${caracteristicas.estiloTexto??''}"></span
+            ><span class="estiloCursor ${caracteristicas.estiloCursor??''}"
+                style="${
+                        caracteristicas.velocidadParpadeoCursor > 0 ? 
+                            'animation: cursor '+ caracteristicas.velocidadParpadeoCursor+'ms infinite;': ''
+                }"
+                                    >${caracteristicas.cursor}</span>
+        `;
+        return elementoDestino;
+
+    }
 }
 
 async function escribirPocoAPoco( textoAEscribir, donde, caracteristicas = {} ){
-    caracteristicas = completarConValoresPorDefecto(caracteristicas);
-    const elemento  = crearEstructuraHTML(donde, caracteristicas);
-    return comenzarAEscribirTexto(elemento, textoAEscribir, caracteristicas);
-}
-
-function completarConValoresPorDefecto(caracteristicas){
-    return { ...CaracteristicasPorDefecto, ...caracteristicas };
-}
-
-function crearEstructuraHTML(donde, caracteristicas){
-    const elementoDestino=document.getElementById(donde);
-
-    elementoDestino.innerHTML = `
-        <span class="estiloTexto   ${caracteristicas.estiloTexto??''}"></span
-        ><span class="estiloCursor ${caracteristicas.estiloCursor??''}"
-               style="${
-                    caracteristicas.velocidadParpadeoCursor > 0 ? 
-                        'animation: cursor '+ caracteristicas.velocidadParpadeoCursor+'ms infinite;': ''
-               }"
-                                  >${caracteristicas.cursor}</span>
-    `;
-    return elementoDestino;
-
-}
-
-async function comenzarAEscribirTexto(elemento, textoAEscribir, caracteristicas){
-    const promise = new Promise( 
-        (resolve, reject) => {
-            procesarSiguienteLetra(elemento, textoAEscribir, 1, caracteristicas, resolve) 
-            ejecutarFuncionSiUnElementoEsBorrado(elemento, 
-                ()=> {
-                    if (tareasProgramadas.get(elemento)){
-                        clearTimeout(tareasProgramadas.get(elemento));
-                        reject();
-                    }
-                }
-            );
-        
-        }
-    );
-
-
-    return promise;
-
-    // Opción 1: Bucle!... para cada letra, la añado... esperando cadencia
-    // Opción 2: Recursividad!... escribo una letra, y llamo a la función con el resto del texto
-        // Problema de la recursividad? StackOverFlow... En este caso ésto no ocurriría.. ya que las llamadas son asíncronas
-        // Es decir, cuando una acaba, no se llama a si misma.. sino que PROGRAMA en el tiempo la ejecución de la siguiente (en base a la cadencia)
-        // Que ventaja tiene este follón?
-            // Qué pasa si a medias de una palabra.... el usuario pincha en un enlace?
-}
-
-function procesarSiguienteLetra(elemento, textoAEscribir, posicionFinal, caracteristicas, resolve){
-    tareasProgramadas.delete(elemento);
-    escribirEnElHTMLHastaLaLetra(elemento, textoAEscribir, posicionFinal);
-    siHayMasLetrasSeguirEscribiendo(elemento, textoAEscribir, posicionFinal, caracteristicas, resolve);
-    siNoHayMasLetrasFinalizar(elemento, textoAEscribir, posicionFinal, caracteristicas, resolve);
-}
-
-function siHayMasLetrasSeguirEscribiendo(elemento, textoAEscribir, posicionFinal, caracteristicas, resolve){
-    if (posicionFinal < textoAEscribir.length){ // Hay que escribir más letras
-        const idTarea = setTimeout( 
-            ()=> procesarSiguienteLetra(elemento, textoAEscribir, posicionFinal+1, caracteristicas, resolve)
-            ,caracteristicas.velocidad
-        );
-        tareasProgramadas.set(elemento, idTarea);
-    }
-}
-
-function siNoHayMasLetrasFinalizar(elemento, textoAEscribir, posicionFinal, caracteristicas, resolve){
-    if (posicionFinal === textoAEscribir.length){ // No hay que escribir más letras
-        enSuCasoOcultarCursor(elemento, caracteristicas);
-        resolve();
-    }
-}
-
-function escribirEnElHTMLHastaLaLetra(elemento, textoAEscribir, posicionFinal){
-    const textoAEscribirActualmente = textoAEscribir.substring(0, posicionFinal);
-    elemento.querySelector('.estiloTexto').innerText = textoAEscribirActualmente;
-}
-
-function enSuCasoOcultarCursor(elemento, caracteristicas){
-    if( caracteristicas.ocultarCursorAlFinalizar )
-        elemento.querySelector('.estiloCursor').style.visibility = 'hidden';
-}
-
-function ejecutarFuncionSiUnElementoEsBorrado(elemento, funcionAEjecutar){
-    const observador = new MutationObserver(
-        mutaciones => mutaciones.forEach(
-                mutacion => mutacion.removedNodes.forEach( 
-                    nodoEliminado => nodoEliminado === elemento && funcionAEjecutar()
-                )
-        )
-    );
-    observador.observe(elemento.parentNode, {childList: true, subtree: true});
+    const { promesa, funcionesDeLaPromesa } = Typewriter.configurarPromesa();
+    caracteristicas = Typewriter.completarConValoresPorDefecto(caracteristicas);
+    const elemento  = Typewriter.crearEstructuraHTML(donde, caracteristicas);
+    const typewriter = Typewriter.generoElementoDelTypeWriter(elemento, textoAEscribir, caracteristicas, funcionesDeLaPromesa);
+    typewriter.procesarSiguienteLetra(typewriter);
+    return promesa;
 }
