@@ -8,17 +8,27 @@
         <script src="./typewriter.js"></script>
     </head>
     <body>
+        <button onclick="document.getElementById('lugarDondeQuieroSacarElTexto').remove();">DESTROZAR EL PROGRAMA</button>
         <div id="lugarDondeQuieroSacarElTexto"></div>
         <div id="lugarDondeQuieroSacarElTexto2"></div>
         <script>
             const caracteristicas = {
                 cursor: '_',
+                velocidad: 800,
+                velocidadParpadeoCursor: 250,
+                ocultarCursorAlFinalizar: true,
+            };
+            const caracteristicas2 = {
+                cursor: '_',
                 velocidad: 200,
+                velocidadParpadeoCursor: 1000,
                 ocultarCursorAlFinalizar: true,
             };
             escribirPocoAPoco("Hola Mundo", "lugarDondeQuieroSacarElTexto", caracteristicas)
             .then( 
-                () => escribirPocoAPoco("Adios Mundo", "lugarDondeQuieroSacarElTexto2", caracteristicas) 
+                () => escribirPocoAPoco("Adios Mundo", "lugarDondeQuieroSacarElTexto2", caracteristicas2) 
+            ).catch( 
+                (error) => escribirPocoAPoco("No me despido.. porque no he saludado", "lugarDondeQuieroSacarElTexto2", caracteristicas2)
             );
         </script>
     </body>

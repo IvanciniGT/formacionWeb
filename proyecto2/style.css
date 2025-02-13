@@ -1,6 +1,6 @@
 
 #lugarDondeQuieroSacarElTexto, #lugarDondeQuieroSacarElTexto2 {
-    width: 100%;
+    width: 60%;
     padding: 3em;
     margin: 3em;
     border: solid 1px #000;
@@ -12,10 +12,6 @@
 
 .estiloCursor {
     opacity: 1;
-}
-
-.estiloCursor.parpadeante {
-    animation: cursor 1000ms infinite;
 }
 
 @keyframes cursor {
