@@ -106,7 +106,7 @@ function closeToast(toastId){
         const container = ensureToastContainer();
         container.removeChild(toast);
         currentToasts.delete(toastId);
-        if(container.children.length === 0 )
+        if(container.children.length === 1 )
             container.remove();
     }
 }
@@ -116,6 +116,15 @@ function ensureToastContainer(){
     if( !toastContainer ){
         toastContainer = document.createElement('div');
         toastContainer.id = 'toast-container';
+        toastContainer.innerHTML=`
+            <template id="toast-template">
+                <div class="toast">
+                    <div class="progress-bar"></div>
+                    <h3>TITULO</h3>
+                    <p>TEXTO</p>
+                </div>
+            </template>
+        `;
         document.body.appendChild(toastContainer);
     }
     return toastContainer;
