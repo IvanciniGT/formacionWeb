@@ -178,3 +178,12 @@ css position:
 - absolute: Asignamos un top/left/right/bottom... pero esas posiciones son relativas al primer ancestro de abajo a arriba cuya position no sea static (relative, fixed o absolute). Adicionalmente, el elemento deja de ocupar espacio en el flujo normal. (eso ¡está pensado para poner elementos en varias capas superpuestas: z-index)
 - relative: Asignamos un top/left/right/bottom... esas posiciones son relativas a donde sea que debiera ir ubicado el elemento. El elemento sigue ocupando su espacio natural
 - fixed: relativo a la pantalla... y no ocupa espacio: El elemento se arranca de donde está y se pega a la pantalla, como si lo hubiera definido al nivel del body!
+
+
+
+---
+
+Operadores boleanos en JS;
+
+- && Es el operador AND en cortocircuito.
+     Es decir, si el primer operando es falso, no se evalúa el segundo.
