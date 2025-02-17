@@ -187,3 +187,21 @@ Operadores boleanos en JS;
 
 - && Es el operador AND en cortocircuito.
      Es decir, si el primer operando es falso, no se evalúa el segundo.
+
+
+---
+
+Para poder importar en un fichero js cosas (funciones/clases) de otro fichero javascript es necesario:
+- Que el fichero donde estén definidas esas clases/funciones las exporte.
+        export function mostrarOverlay() { ... }
+        export class Overlay { ... }
+        export const variable = 5;
+        ...
+- Que el navegador permita cargar ese script como un módulo.
+        <script type="module" src="miScript.js"></script>
+
+Los scripts de tipo `module` permiten importar/exportar cosas (funciones/clases/variables) de otros scripts.
+
+PERO... esto no va a ser tan sencillo... ya que los navegdaros de internet modernos: CHROME, FIREFOX, EDGE, SAFARI... no permiten cargar ficheros locales como módulos. (file://).. por motivos de seguridad.
+
+Por lo tanto nos hará falta disponer de un servidor web local que nos permita servir esos ficheros por protocolo HTTP.

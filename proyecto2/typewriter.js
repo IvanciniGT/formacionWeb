@@ -114,6 +114,10 @@ class Typewriter {
     }
 }
 
+
+
+
+
 async function escribirPocoAPoco( textoAEscribir, donde, caracteristicas = {} ){
     const { promesa, funcionesDeLaPromesa } = Typewriter.configurarPromesa();
     caracteristicas = Typewriter.completarConValoresPorDefecto(caracteristicas);
