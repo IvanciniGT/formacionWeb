@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <!-- Las etiquetas meta son pistas/indicaciones que damos al navegador -->
+        <meta charset="UTF-8">
+        <title>Mi Aplicación</title>
+        <style>
+            p {
+                border: solid 1px black;
+                background-color: #ddddff;
+            }
+            
+            div {
+                border: solid 1px black;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div style="background-color: #ffcccc">
+            <p> Esto es un parrafo </p>
+            <p> Esto es otro parrafo </p>
+        </div>
+
+        <div style="background-color: #ffcccc;
+                    position: relative;
+                    top: -2em;
+                    left: 2em;">
+            <p> Esto es un parrafo </p>
+            <p> Esto es otro parrafo </p>
+        </div>
+    
+    
+        <div style="background-color: #ffcccc;
+                    position: relative; 
+                    left: 1em;">
+            <p> Esto es un parrafo </p>
+            <p style="
+                position: absolute;
+                left: 3em;
+            "> Esto es otro parrafo </p>
+        </div>
+    
+    
+        <div style="background-color: #ffcccc;
+        position: fixed;
+        bottom: 0;
+        ">
+            <p> Esto es un parrafo </p>
+            <p> Esto es otro parrafo </p>
+        </div>
+    </body>
+</html>
