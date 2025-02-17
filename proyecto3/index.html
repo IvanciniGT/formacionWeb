@@ -18,14 +18,47 @@
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius inventore placeat aliquid totam! At porro doloremque nobis veniam consequatur amet, doloribus inventore et dolorum totam officiis rem ducimus harum! Harum.</p>
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius inventore placeat aliquid totam! At porro doloremque nobis veniam consequatur amet, doloribus inventore et dolorum totam officiis rem ducimus harum! Harum.</p>
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius inventore placeat aliquid totam! At porro doloremque nobis veniam consequatur amet, doloribus inventore et dolorum totam officiis rem ducimus harum! Harum.</p>
+        <div class="overlay" style="background-color: #dddddddd">
+            <img class="overlay-image" src="overlay.jpg" style="opacity:0.2">
+            <h2 class="overlay-title">Estamos realizando su búsqueda</h2>
+            <p class="overlay-message">Tardaremos solamente unos segundos.</p>
+        </div>
         <script lang="javascript">
             document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(function() {
+                    const promesa = undefined;
                     mostrarOverlay(
-                        
+                        {
+                            titulo: {
+                                texto: 'Estamos realizando su búsqueda',
+                                caracteristicas: {
+                                    velocidad: 50,
+                                    cursor: '',
+                                    estiloTexto: 'titulo-overlay',
+                                },
+                            }, 
+                            mensaje: {
+                                texto: 'Tardaremos solamente unos segundos.',
+                                caracteristicas: {
+                                    velocidad: 100,
+                                    cursor: '_',
+                                    velocidadParpadeoCursor: 500,
+                                    estiloTexto: 'texto-overlay',
+                                    estiloCursor: 'texto-overlay',
+                                    ocultarCursorAlFinalizar: false
+                                },
+                            },
+                            fondo: {
+                                color: '#dddddddd',
+                                imagen: 'overlay.jpg',
+                                transparencia: 0.2,
+                            }
+                        },
+                        promesa
                     );
                 }, 3000);
             });
         </script>
+
     </body>
 </html>

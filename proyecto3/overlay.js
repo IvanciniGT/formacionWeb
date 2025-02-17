@@ -5,6 +5,23 @@
 </div>
 */
 
-function mostrarOverlay(){
+function mostrarOverlay(
+    contenido = {
+        titulo: {
+            texto: 'Título por defecto',
+            caracteristicas: {}
+        }, 
+        mensaje: {
+            texto: 'Texto por defecto',
+            caracteristicas: {}
+        },
+        fondo: {
+            color: '#dddddddd',
+            imagen: 'overlay.jpg',
+            transparencia: 0.2,
+        }
+    },
+    promesa = undefined
+){
     console.log("mostrarOverlay");
 }
