@@ -22,11 +22,11 @@ export function mostrarOverlay(
     const overlayTemplate = obtenerPlantillaHTMLOverlay();
     const overlayElement = configurarHTMLDelOverlay(overlayTemplate, contenido);
     const funcionCerrado = generarFuncionDeCerrado(overlayElement);
-    configurarAutoCerrado( promesa, funcionCerrado);
+    configurarAutoCerradoDelOverlay( promesa, funcionCerrado);
     return funcionCerrado;
 }
 
-function configurarAutoCerrado(promesa, funcionCerrado){
+function configurarAutoCerradoDelOverlay(promesa, funcionCerrado){
     promesa?.then(funcionCerrado); // Operador elvis
 }
 
