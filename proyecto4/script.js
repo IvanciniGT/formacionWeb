@@ -48,8 +48,17 @@ function agregarListeners() {
     document.addEventListener("mousemove",
             (informacionDelEvento)=>{
                 if(moviendoBotonesDelNavegador){
-                    const nuevaPosicionX = informacionDelEvento.clientX - posicionNavegador.x;
-                    const nuevaPosicionY = informacionDelEvento.clientY - posicionNavegador.y;
+                    let nuevaPosicionX = informacionDelEvento.clientX - posicionNavegador.x;
+                    let nuevaPosicionY = informacionDelEvento.clientY - posicionNavegador.y;
+                    
+                    if(nuevaPosicionX < 10) nuevaPosicionX = 10;
+                    if(nuevaPosicionY < 10) nuevaPosicionY = 10;
+
+                    if(nuevaPosicionX + navegador.offsetWidth + 10 > document.documentElement.clientWidth)
+                        nuevaPosicionX = document.documentElement.clientWidth - navegador.offsetWidth - 10;
+
+                    if(nuevaPosicionY + navegador.offsetHeight + 10 > document.documentElement.clientHeight)
+                        nuevaPosicionY = document.documentElement.clientHeight - navegador.offsetHeight - 10;
 
                     navegador.style.left = `${nuevaPosicionX}px`;
                     navegador.style.top = `${nuevaPosicionY}px`;
