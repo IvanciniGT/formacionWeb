@@ -42,3 +42,24 @@ NOTA (template)
 ICONO interacuable -> CAMBIA de B/N a color + Le sale el icono de la papelera de reciclaje
 
 ---> PALETA DE COLORES
+
+---
+
+En CSS siempre empiezo pensando de cada elemento:
+- Display:
+  - block
+    - block simple
+    - grid
+    - flex
+  - inline
+    - inline-block
+    - inline-flex
+    - inline-grid
+    - inline
+  - none
+  - contents: Que ese elemento no se muestre en la pantalla.. Solo su contenido
+- Position
+  - static
+  - relative
+  - absolute
+  - fixed

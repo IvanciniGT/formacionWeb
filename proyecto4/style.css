@@ -1,1 +1,80 @@
 
+#notas {
+    display: contents;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#notas nav {
+    display: block;
+    position: fixed;
+    z-index: 1000;
+}
+
+#notas nav ul {
+    display: contents;
+}
+
+#notas nav ul li {
+    display: none;
+    width: 35px;
+    height: 35px;
+    background-size: contain;
+}
+
+#notas.visible nav ul li {
+    display: block;
+}
+
+#notas nav ul li:first-of-type {
+    display: block;
+    filter: grayscale(80%);
+    opacity: 0.5;
+}
+
+#notas.visible nav ul li:first-of-type {
+    filter: none;
+    opacity: 1;
+}
+
+#activar{
+    background-image: url('nota.png');
+}
+#papelera{
+    background-image: url('papelera.png');
+}
+
+
+#notas ol {
+    display: none;
+}
+
+#notas.visible ol {
+    display: contents;
+}
+
+#notas ol li {
+    display: block;
+    position: fixed;
+    z-index: 999;
+
+    padding: 1em;
+    clip-path: polygon(100% 0, 100% 90%, 90% 100%, 0 100%, 0 0);
+
+    background-color: #ffef5d;
+}
+
+#notas ol li::after {
+    content: '';
+    display: block;
+    right: 0;
+    bottom: 0;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    position: absolute;
+    background-color: #e8d84b;
+    box-shadow: 0px -1px 1em 0px #0000008c;
+}
+#notas ol li.editable {
+
+}
