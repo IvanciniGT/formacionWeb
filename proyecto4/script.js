@@ -3,7 +3,27 @@ let posicionNavegador ={x:undefined,y:undefined};
 
 let moviendoBotonesDelNavegador = false;
 
-function agregarListenersAlNavegador() {
+let estadoVisibilidadNotas = false;
+
+
+function clickEnBotonNotas(informacionDelEvento){
+    if(estadoVisibilidadNotas) {
+        ocultarNotas();
+    } else {
+        mostrarNotas();
+    }
+    estadoVisibilidadNotas = !estadoVisibilidadNotas;
+}
+
+function ocultarNotas(){
+    document.getElementById("notas").classList.remove("visible");
+}
+
+function mostrarNotas(){
+    document.getElementById("notas").classList.add("visible");
+}
+
+function agregarListeners() {
 
     const navegador = document.getElementById("notas")
             .querySelector("nav");
@@ -36,4 +56,6 @@ function agregarListenersAlNavegador() {
                 }
             }        
     );
+
+    document.getElementById("activar").addEventListener("click",(e) =>clickEnBotonNotas(e));
 }

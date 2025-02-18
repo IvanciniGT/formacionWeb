@@ -30,6 +30,12 @@
     display: block;
     filter: grayscale(80%);
     opacity: 0.5;
+    transition: filter 0.5s, opacity 0.5s;
+}
+#notas nav ul li:first-of-type:hover {
+    display: block;
+    filter: grayscale(20%);
+    opacity: 0.9;
 }
 
 #notas.visible nav ul li:first-of-type {
