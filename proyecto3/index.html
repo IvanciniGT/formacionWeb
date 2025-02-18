@@ -5,7 +5,8 @@
         <meta charset="UTF-8">
         <title>Mi Aplicación</title>
         <link rel="stylesheet" href="./style.css">
-        <script src="./overlay.js"></script>
+        <link rel="stylesheet" href="./typewriter/style.css">
+        <!--script type="module" src="./overlay.js"></script-->
     </head>
     <body>
         
@@ -19,26 +20,31 @@
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius inventore placeat aliquid totam! At porro doloremque nobis veniam consequatur amet, doloribus inventore et dolorum totam officiis rem ducimus harum! Harum.</p>
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius inventore placeat aliquid totam! At porro doloremque nobis veniam consequatur amet, doloribus inventore et dolorum totam officiis rem ducimus harum! Harum.</p>
         
-        <script lang="javascript">
+        <script languaje="javascript" type="module">
+            import { mostrarOverlay } from './overlay.js';
             document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(function() {
-                    const promesa = undefined;
+                    const promesa = new Promise( (resolve, reject) => {
+                        setTimeout( ()=> {
+                            resolve();
+                        }, 20*1000);
+                    });
                     const funcionDeCerradoDelOverlayQueAbro = mostrarOverlay(
                         {
                             titulo: {
                                 texto: 'Estamos realizando su búsqueda',
                                 caracteristicas: {
-                                    velocidad: 50,
+                                    velocidad: 20,
                                     cursor: '',
                                     estiloTexto: 'titulo-overlay',
                                 },
                             }, 
                             mensaje: {
-                                texto: 'Tardaremos solamente unos segundos.',
+                                texto: 'Tardaremos solamente unos segundos',
                                 caracteristicas: {
-                                    velocidad: 100,
+                                    velocidad: 120,
                                     cursor: '_',
-                                    velocidadParpadeoCursor: 500,
+                                    velocidadParpadeoCursor: 300,
                                     estiloTexto: 'texto-overlay',
                                     estiloCursor: 'texto-overlay',
                                     ocultarCursorAlFinalizar: false
@@ -58,44 +64,38 @@
                         const funcionDelSegundoOverlay = mostrarOverlay(
                             {
                                 titulo: {
-                                    texto: 'Estamos realizando su otra búsqueda',
+                                    texto: 'Parece que hemos perdido cobertura de red',
                                     caracteristicas: {
-                                        velocidad: 50,
+                                        velocidad: 20,
                                         cursor: '',
                                         estiloTexto: 'titulo-overlay',
                                     },
                                 }, 
                                 mensaje: {
-                                    texto: 'Tardaremos solamente una eternidad.',
+                                    texto: 'Estamos tratando de recuperar la conexión con el servidor. Espere',
                                     caracteristicas: {
-                                        velocidad: 100,
+                                        velocidad: 120,
                                         cursor: '_',
-                                        velocidadParpadeoCursor: 500,
+                                        velocidadParpadeoCursor: 300,
                                         estiloTexto: 'texto-overlay',
                                         estiloCursor: 'texto-overlay',
                                         ocultarCursorAlFinalizar: false
                                     },
                                 },
                                 fondo: {
-                                    color: '#ffdddddd',
+                                    color: '#ffddddff',
                                     imagen: 'overlay.jpg',
                                     transparencia: 0.2,
                                 }
-                            },
-                            promesa
+                            }
                         );
 
                         setTimeout( ()=> {
                             funcionDelSegundoOverlay();
-                        }, 3000);
-                    }, 2000);
+                        }, 8*1000);
+                    }, 8*1000);
 
-                    setTimeout(function() {
-                        funcionDeCerradoDelOverlayQueAbro();
-                    }, 8000);
-
-
-                }, 3000);
+                }, 3*1000);
 
             });
         </script>

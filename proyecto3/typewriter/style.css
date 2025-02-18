@@ -1,0 +1,27 @@
+
+#lugarDondeQuieroSacarElTexto, #lugarDondeQuieroSacarElTexto2 {
+    width: 60%;
+    padding: 3em;
+    margin: 3em;
+    border: solid 1px #000;
+    font-family: Arial, sans-serif;
+    font-size: 1.5em;
+}
+
+/*.estiloTexto {}*/
+
+.estiloCursor {
+    opacity: 1;
+}
+
+@keyframes cursor {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
