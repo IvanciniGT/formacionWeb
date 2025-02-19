@@ -54,6 +54,10 @@
     background-image: url('papelera.png');
 }
 
+#papelera.open{
+    background-image: url('papelera_open.png') !important;
+}
+
 
 #notas ol {
     display: none;

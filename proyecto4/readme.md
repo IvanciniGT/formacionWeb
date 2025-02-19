@@ -75,3 +75,6 @@ Función de poner listeners:
 - llamar a la función de poner listeners en un elemento:
   - nav(botones)
   - todas las notas
+
+
+TIRAR NOTAS A LA BASURA.
