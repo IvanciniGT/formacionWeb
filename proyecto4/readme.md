@@ -78,3 +78,38 @@ Función de poner listeners:
 
 
 TIRAR NOTAS A LA BASURA.
+
+
+
+BOTON nuevaNota {
+    llamo al servicio para pedirle la nueva nota: TEXTO: Escriba aquí su nota | amarilla
+}
+
+Que pasa ahora si: añado un boton de NUEVA NOTA DE RECORDATORIO
+BOTON {
+    llamar al servicio para pedirle la nueva nota: TEXTO: Recuerde ... | roja
+}
+
+Y en paralelo, me he subscrito al servicio:
+- Cuando haya una nueva nota:
+     generar el HTML de esa nota 
+
+
+Que pasa ahora si: añado un boton de NUEVA NOTA DE TArea pendiente
+BOTON {
+    llamar al servicio para pedirle la nueva nota: TEXTO: Tarea pendiente | verde
+}
+
+
+
+Que pasa ahora si: añado un boton de NUEVA NOTA DE RECORDATORIO
+BOTON {
+    llamar al servicio para pedirle la nueva nota
+}
+
+
+
+Que pasa ahora si: añado un boton de NUEVA NOTA DE RECORDATORIO
+BOTON {
+    llamar al servicio para pedirle la nueva nota
+}
