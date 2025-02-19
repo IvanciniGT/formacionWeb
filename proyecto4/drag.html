@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <!-- Las etiquetas meta son pistas/indicaciones que damos al navegador -->
+        <meta charset="UTF-8">
+        <title>Mi Aplicación</title>
+        <style>
+
+            body{
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .elemento-movible {
+                width: 100px;
+                height: 100px;
+                background-color: red;
+                color: white;
+                align-items: center;
+                justify-content: center;
+                display: flex;
+                cursor: grab;
+            }
+            #elemento1 {
+                background-color: red;
+            }
+
+            #elemento2 {
+                background-color: green;
+            }
+
+            #elemento3 {
+                background-color: yellow;
+            }
+
+            #contenedor {
+                width: fit-content;
+                height: 200px;
+                background-color: blue;
+                color: white;
+                align-items: center;
+                justify-content: center;
+                display: flex;
+            }
+
+            #contenedor.over {
+                background-color: #0000ff99;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div id="elemento1" class="elemento-movible" draggable="true"> Arrástrame </div>
+        <div id="elemento2" class="elemento-movible" draggable="true"> Arrástrame a mi también</div>
+        <div id="elemento3" class="elemento-movible" draggable="true"> Arrástrame y yo!</div>
+        <div id="contenedor"> Suéltalo aquí </div>
+
+        <script>
+
+            ['elemento1', 'elemento2', 'elemento3'].forEach( 
+                (id) => {
+                    document.getElementById(id).addEventListener('dragstart',
+                            (e)=> {
+                                e.dataTransfer.setData('text/plain', e.target.id); //id
+                            }
+                    );
+                }
+            );
+
+            document.getElementById('contenedor').addEventListener('dragover',
+                (e)=> {
+                    document.getElementById('contenedor').classList.add('over');
+                    e.preventDefault();
+                }
+            );
+
+            document.getElementById('contenedor').addEventListener('dragleave',
+                (e)=> {
+                    document.getElementById('contenedor').classList.remove('over');
+                    e.preventDefault();
+                }
+            );
+
+            document.getElementById('contenedor').addEventListener('drop',
+                (e)=> {
+                    document.getElementById('contenedor').classList.remove('over');
+                    e.preventDefault();
+                    // Aqui tenemos acceso a lo que venga como dato en el evento de drag
+                    const valor = e.dataTransfer.getData('text/plain');
+                    const elementoMoviendose = document.getElementById(valor);
+                    document.getElementById('contenedor').appendChild(elementoMoviendose);
+                }
+            );
+
+        </script>
+
+    </body>
+</html>
+
