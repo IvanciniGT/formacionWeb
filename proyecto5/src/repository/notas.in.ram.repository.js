@@ -36,12 +36,13 @@ export class NotasInRAMRepository {
   }
 
   deleteNota(nota) {
-    if(this.getNotaById(nota.id) === undefined) {
+    const notaEliminar = this.getNotaById(nota);
+    if(notaEliminar === undefined) {
       console.error("No se puede eliminar una nota que no existe");
       throw new Error("No se puede eliminar una nota que no existe");
     }
-    this.notas = this.notas.filter(n => n !== nota);
-    this.notasEnPapelera.push(nota);
+    this.notas = this.notas.filter(n => n !== notaEliminar);
+    this.notasEnPapelera.push(notaEliminar);
   }
 
   getNotaById(id) {
@@ -65,7 +66,7 @@ export class NotasInRAMRepository {
   }
 
   static getUniqueID() {
-    return (""+Math.random()*Math.random()+Math.random()).substring(0, 12);
+    return "nota-"+(""+Math.random()*Math.random()+Math.random()).substring(2, 12);
   }
 
 }

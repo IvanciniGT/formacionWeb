@@ -1,7 +1,8 @@
-import {Nota} from '../models/nota.model.js';
+import {Nota} from '../models/nota.js';
 import {repositorioDeNotasEnUso} from '../repository/notas.repository.js';
+import {ColoresDeNotas} from '../models/colores.js';
 
-const ValoresPorDefecto = Object.freeze({
+export const ValoresPorDefecto = Object.freeze({
     ancho: 300,
     color: ColoresDeNotas.amarillo,
     texto: "Escribe aquí tu nota...",

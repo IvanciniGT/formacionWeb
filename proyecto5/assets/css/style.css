@@ -48,14 +48,17 @@
 }
 
 #activar{
-    background-image: url('nota.png');
+    background-image: url('../images/nota.png');
+}
+#nuevaNota{
+    background-image: url('../images/nota.png');
 }
 #papelera{
-    background-image: url('papelera.png');
+    background-image: url('../images/papelera.png');
 }
 
-#papelera.over{
-    background-image: url('papelera_open.png') !important;
+#papelera.open{
+    background-image: url('../images/papelera_open.png') !important;
 }
 
 
@@ -89,6 +92,13 @@
     padding-bottom: 2.5em;
     cursor: pointer;
     filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5));
+    overflow-wrap: break-word;
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+#notas ol li.eliminar {
+    opacity: 0;
+    transform: scale(0.5);
 }
 
 #notas ol li::after {
