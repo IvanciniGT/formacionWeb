@@ -63,3 +63,15 @@ En CSS siempre empiezo pensando de cada elemento:
   - relative
   - absolute
   - fixed
+
+Funcion de poner listeners en un elemento (elemento)
+- mouseup       elemento
+- mousedown     elemento
+
+
+
+Función de poner listeners:
+- mouseover     document
+- llamar a la función de poner listeners en un elemento:
+  - nav(botones)
+  - todas las notas

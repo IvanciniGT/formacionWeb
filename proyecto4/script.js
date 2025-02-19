@@ -2,17 +2,20 @@
 let posicionNavegador ={x:undefined,y:undefined};
 
 let moviendoBotonesDelNavegador = false;
-
+let movido = false;
+let elementoAMover;
 let estadoVisibilidadNotas = false;
 
 
 function clickEnBotonNotas(informacionDelEvento){
-    if(estadoVisibilidadNotas) {
-        ocultarNotas();
-    } else {
-        mostrarNotas();
+    if(!movido){
+        if(estadoVisibilidadNotas) {
+            ocultarNotas();
+        } else {
+            mostrarNotas();
+        }
+        estadoVisibilidadNotas = !estadoVisibilidadNotas;
     }
-    estadoVisibilidadNotas = !estadoVisibilidadNotas;
 }
 
 function ocultarNotas(){
@@ -25,46 +28,69 @@ function mostrarNotas(){
 
 function agregarListeners() {
 
-    const navegador = document.getElementById("notas")
-            .querySelector("nav");
+    agregarListenersAUnElemento(document.getElementById("notas").querySelector("nav"));
 
-    navegador.addEventListener("mousedown",
+    document.querySelectorAll("#notas ol li").forEach(
+        (elemento)=>agregarListenersAUnElemento(elemento)
+    );
+
+    document.addEventListener("mouseleave",
+        (informacionDelEvento)=>{
+            moviendoBotonesDelNavegador = false;
+        }
+    );
+    document.addEventListener("mousemove",
+        (informacionDelEvento)=>{
+            if(moviendoBotonesDelNavegador && elementoAMover){
+                movido = true;
+                let nuevaPosicionX = informacionDelEvento.clientX - posicionNavegador.x;
+                let nuevaPosicionY = informacionDelEvento.clientY - posicionNavegador.y;
+                
+                if(nuevaPosicionX < 10) {
+                    nuevaPosicionX = 10;
+                }
+                if(nuevaPosicionY < 10) {
+                    nuevaPosicionY = 10;
+                }
+
+                if(nuevaPosicionX + elementoAMover.offsetWidth + 10 > document.documentElement.clientWidth){
+                    nuevaPosicionX = document.documentElement.clientWidth - elementoAMover.offsetWidth - 10;
+                }
+
+                if(nuevaPosicionY + elementoAMover.offsetHeight + 10 > document.documentElement.clientHeight){
+                    nuevaPosicionY = document.documentElement.clientHeight - elementoAMover.offsetHeight - 10;
+                }
+
+                elementoAMover.style.left = `${nuevaPosicionX}px`;
+                elementoAMover.style.top = `${nuevaPosicionY}px`;
+            }
+        }        
+    );
+
+
+    document.getElementById("activar").addEventListener("click",(e) =>clickEnBotonNotas(e));
+}
+function agregarListenersAUnElemento(elemento) {
+
+    elemento.addEventListener("mousedown",
                 (informacionDelEvento)=>{
+                    elementoAMover = elemento;
                     moviendoBotonesDelNavegador = true;
+                    movido=false;
                     posicionNavegador.x = informacionDelEvento.offsetX;
                     posicionNavegador.y = informacionDelEvento.offsetY;
-                    navegador.style.cursor = "grabbing";
+                    elemento.style.cursor = "grabbing";
+                    if(informacionDelEvento.target.tagName !== "TEXTAREA")
+                        informacionDelEvento.preventDefault();
                 }
     );
 
-    navegador.addEventListener("mouseup",
+    elemento.addEventListener("mouseup",
         (informacionDelEvento)=>{
             moviendoBotonesDelNavegador = false;
-            navegador.style.cursor = "pointer";
+            elemento.style.cursor = "pointer";
         }
     );
 
 
-    document.addEventListener("mousemove",
-            (informacionDelEvento)=>{
-                if(moviendoBotonesDelNavegador){
-                    let nuevaPosicionX = informacionDelEvento.clientX - posicionNavegador.x;
-                    let nuevaPosicionY = informacionDelEvento.clientY - posicionNavegador.y;
-                    
-                    if(nuevaPosicionX < 10) nuevaPosicionX = 10;
-                    if(nuevaPosicionY < 10) nuevaPosicionY = 10;
-
-                    if(nuevaPosicionX + navegador.offsetWidth + 10 > document.documentElement.clientWidth)
-                        nuevaPosicionX = document.documentElement.clientWidth - navegador.offsetWidth - 10;
-
-                    if(nuevaPosicionY + navegador.offsetHeight + 10 > document.documentElement.clientHeight)
-                        nuevaPosicionY = document.documentElement.clientHeight - navegador.offsetHeight - 10;
-
-                    navegador.style.left = `${nuevaPosicionX}px`;
-                    navegador.style.top = `${nuevaPosicionY}px`;
-                }
-            }        
-    );
-
-    document.getElementById("activar").addEventListener("click",(e) =>clickEnBotonNotas(e));
 }
