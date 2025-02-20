@@ -20,15 +20,16 @@ export class NotasRestRepository extends NotasInRAMRepository{
     return nuevaNota;
   }
 
-  updateNota(nota) {
+  async updateNota(nota) {
     super.updateNota(nota);
-    this.persistirNotasEnServicioRest();
+    return this.hacerPeticionPUT(RUTA_BASE_API+"/notas/"+nota.id, nota);
   }
 
-  deleteNota(nota) {
+  async deleteNota(nota) {
     super.deleteNota(nota);
-    this.persistirNotasEnServicioRest();
+    const promesaDeBorado = this.hacerPeticionDELETE(RUTA_BASE_API+"/notas/"+nota);
     this.persistirNotasBorradasEnServicioRest();
+    return promesaDeBorado;
   }
 
   restoreNota(nota) {
@@ -43,11 +44,9 @@ export class NotasRestRepository extends NotasInRAMRepository{
   }
 
   persistirNotasEnServicioRest(){
-    ServicioRest.setItem("notas", JSON.stringify(this.notas));
   }
 
   persistirNotasBorradasEnServicioRest(){
-    ServicioRest.setItem("notasBorradas", JSON.stringify(this.notasEnPapelera));
   }
 
   async leerNotasDelServicioRest(){
@@ -59,7 +58,13 @@ export class NotasRestRepository extends NotasInRAMRepository{
   }
 
   async hacerPeticionDELETE(url){
-
+    const promesa = new Promise((resolve, reject) => {
+      //  Aquí va el código asíncrono
+          fetch(url, { method: 'DELETE' })
+            .then( () => resolve() )
+            .catch( error => reject(error) )
+    });
+    return promesa;  
   }
 
   async hacerPeticionPOST(url, nota){
@@ -67,8 +72,28 @@ export class NotasRestRepository extends NotasInRAMRepository{
   }
 
   async hacerPeticionPUT(url, nota){
-
-  }
+    const promesa = new Promise((resolve, reject) => 
+      //  Aquí va el código asíncrono
+              fetch(url, {
+                            "method": "PUT",
+                            "headers": {
+                              "Content-Type": "application/json"
+                            },
+                            "body": JSON.stringify(nota)
+                          }
+                    )
+                .then( response => {
+                                      resolve() 
+                                    }
+                )
+                .catch( error => {
+                                      reject(error) 
+                                    }
+                )
+            
+        );
+  return promesa;
+}
 
   async hacerPeticionGET(url){
     const promesa = new Promise((resolve, reject) => {
@@ -78,7 +103,6 @@ export class NotasRestRepository extends NotasInRAMRepository{
                 fetch(url) // Esta llamada se hace por método GET
                   .then( respuesta => respuesta.json() )
                   .then( notasJson => {
-                    console.log("LLAMANDO POR GET", url, notasJson);
                     resolve(notasJson);
                   })
                   .catch( error => reject(error) )

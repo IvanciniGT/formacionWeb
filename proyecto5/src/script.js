@@ -210,6 +210,7 @@ function generarNotaHTML(nota){
     notaElement.addEventListener("mousedown",
         (informacionDelEvento)=>{
             if(informacionDelEvento.button === 0){
+                movido = false;
                 if(!notaElement.querySelector("textarea")){
                     elementoAMover = notaElement;
                     posicionNavegador.x = informacionDelEvento.offsetX;
@@ -224,14 +225,15 @@ function generarNotaHTML(nota){
 
     notaElement.addEventListener("mouseup",
         (informacionDelEvento)=>{
-            if(informacionDelEvento.button === 0){
-                notaElement.style.cursor = "pointer";
-                elementoAMover = undefined;
+            if(informacionDelEvento.button === 0 && movido){
                 notasService.modificarUbicacionDeLaNota(
                     nota.id, 
                     {x:notaElement.offsetLeft, y:notaElement.offsetTop}
                 );
-            }
+            } 
+            notaElement.style.cursor = "pointer";
+            elementoAMover = undefined;
+
         }
     );
     notaElement.addEventListener("dblclick", 
@@ -269,8 +271,8 @@ function convertirNotaEnEditable(nota){
 function guardarCambiosEnNota(nota){
     const notaElement = document.getElementById(nota.id);
     const textarea = notaElement.querySelector("textarea");
-    let nuevoTexto = textarea.value;
-    if(nuevoTexto.trim() === "")
+    let nuevoTexto = textarea.value.trim();
+    if(nuevoTexto === "")
         nuevoTexto = nota.texto;
     notasService.modificarElTextoDeLaNota(nota.id, nuevoTexto);
 }

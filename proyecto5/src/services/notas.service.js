@@ -73,8 +73,18 @@ class NotasService {
     }
 
     eliminarNota(id){
-        repositorioDeNotasEnUso.deleteNota(id);
-        this.notificar(EventosDelServicioDeNotas.notaEliminada, id);
+        repositorioDeNotasEnUso.deleteNota(id).then(
+            () => this.notificar(EventosDelServicioDeNotas.notaEliminada, id)
+        ).catch(
+            () => {
+                const funcionCierre = mostrarOverlayError(repositorioDeNotasEnUso.deleteNota(id));
+                setTimeout(() => {
+                    funcionCierre()
+                    this.eliminarNota(id)
+                }, 5000);
+            }
+        );
+        //this.notificar(EventosDelServicioDeNotas.notaEliminada, id);
     }
 
     vaciarPapeleraReciclaje(){
@@ -90,22 +100,25 @@ class NotasService {
     modificarElTextoDeLaNota(id, texto){
         const nota = repositorioDeNotasEnUso.getNotaById(id);
         nota.texto = texto;
-        repositorioDeNotasEnUso.updateNota(nota);
-        this.notificar(EventosDelServicioDeNotas.notaModificada, nota);
+        repositorioDeNotasEnUso.updateNota(nota).then(
+            ()=>this.notificar(EventosDelServicioDeNotas.notaModificada, nota)
+        );
     }
 
     modificarUbicacionDeLaNota(id, posicion){
         const nota = repositorioDeNotasEnUso.getNotaById(id);
         nota.posicion = posicion;
-        repositorioDeNotasEnUso.updateNota(nota);
-        this.notificar(EventosDelServicioDeNotas.notaModificada, nota);
+        repositorioDeNotasEnUso.updateNota(nota).then(
+            ()=>this.notificar(EventosDelServicioDeNotas.notaModificada, nota)  
+        );
     }
 
     modificarColorDeLaNota(id, color){
         const nota = repositorioDeNotasEnUso.getNotaById(id);
         nota.color = color;
-        repositorioDeNotasEnUso.updateNota(nota);
-        this.notificar(EventosDelServicioDeNotas.notaModificada, nota);
+        repositorioDeNotasEnUso.updateNota(nota).then(
+            ()=>this.notificar(EventosDelServicioDeNotas.notaModificada, nota)
+        );
     }
 
     addEventListener(evento, callback){
@@ -128,6 +141,7 @@ class NotasService {
 
 
 function mostrarOverlayCargando( promesa ){
+    /*
     return mostrarOverlay(
         {
             titulo: {
@@ -157,6 +171,7 @@ function mostrarOverlayCargando( promesa ){
         },
         promesa
     );
+    */
 }
 
 function mostrarOverlayError( promesa ){
