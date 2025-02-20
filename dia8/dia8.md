@@ -47,3 +47,24 @@ document.addEventListener("visibilitychange" ,
         document.visibilityState === 'visible' ? console.log('La pestaña está visible') : console.log('La pestaña está oculta');
     }
 );
+
+---
+
+- Usar el servicio REST para persistir... creando un repository nuevo
+- Usar tanto el servicio rest como el localstorage para persistir:
+  - Si en un momento dado, tengo red, y el servidor está operativo, trabajo contra él.
+  - Si en un momento dado, el servidor se cae, puedo seguir trabajando con el localstorage
+    y cuando se recuperar conexión, trabajar con el servidor (actualizarlo con los cambios en local) 
+
+    Esto es un poco follón. Necesitaríamos una forma de saber que cambio debe prevalecer.
+        Estoy trabajando en un navegador de mi pc.. conectado al servidor
+        Pero en un momento me quedo sin red.. y sigo en local
+
+        En paralelo abro un navegador en el telefono.
+        Hago cambios en el telefono y subo al servidor
+
+        Cuando el pc recuperar conexión, debería saber que cambios prevalecen.
+        ¿Cómo lo hago?
+            Fecha de modificación
+            HASH de la nota (SHA, MD5)
+            Histórico de versiones de la nota

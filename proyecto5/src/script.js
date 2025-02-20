@@ -1,5 +1,7 @@
 import {notasService, EventosDelServicioDeNotas, ValoresPorDefecto} from "./services/notas.service.js";
 
+
+
 let elementoAMover;
 let posicionNavegador ={x:undefined,y:undefined};
 let movido = false;
@@ -7,8 +9,12 @@ let movido = false;
 export function usarNotas(){
     generarLaEstructuraBasicaHTMLDeLasNotas();
     configurarListenersDeEventos();
+    inicializarServicioDeNotas();
 }
 
+function inicializarServicioDeNotas(){
+    notasService.inicializar();
+}
 
 function configurarListenersDeEventos(){
     configurarListenersDeEventosDelServicioDeNotas();

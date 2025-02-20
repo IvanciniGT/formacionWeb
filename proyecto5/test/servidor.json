@@ -1,0 +1,35 @@
+{
+  "notasBorradas": [],
+  "notas": [
+    {
+      "id": "nota-2956946469",
+      "texto": "Primera nota modificada",
+      "color": "yellow",
+      "posicion": {
+        "x": 273,
+        "y": 88
+      },
+      "ancho": 300
+    },
+    {
+      "id": "nota-3942469937",
+      "texto": "Segunda nota modificada",
+      "color": "yellow",
+      "posicion": {
+        "x": 23,
+        "y": 271
+      },
+      "ancho": 300
+    },
+    {
+      "id": "nota-0248701315",
+      "texto": "Tercera nota modificada",
+      "color": "yellow",
+      "posicion": {
+        "x": 198,
+        "y": 435
+      },
+      "ancho": 300
+    }
+  ]
+}

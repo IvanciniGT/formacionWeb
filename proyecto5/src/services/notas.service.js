@@ -1,6 +1,9 @@
 import {Nota} from '../models/nota.js';
 import {repositorioDeNotasEnUso} from '../repository/notas.repository.js';
 import {ColoresDeNotas} from '../models/colores.js';
+import { mostrarOverlay } from '../../overlay.js';
+
+
 
 export const ValoresPorDefecto = Object.freeze({
     ancho: 300,
@@ -25,13 +28,29 @@ class NotasService {
         document.addEventListener("visibilitychange" , 
             ()=>{
                 if(document.visibilityState === 'visible'){
-                    if(repositorioDeNotasEnUso.recargarNotas){
-                        repositorioDeNotasEnUso.recargarNotas();
-                        this.notificar(EventosDelServicioDeNotas.notasCargadas, repositorioDeNotasEnUso.getNotas());
-                    }
+                        this.inicializar();
                 } 
             }
         );
+    }
+
+    async inicializar(){
+        if(repositorioDeNotasEnUso.recargarNotas){
+            const promesaDeCarga=repositorioDeNotasEnUso.recargarNotas();
+            const funcionCierreOverlayNormal = mostrarOverlayCargando(promesaDeCarga);
+            promesaDeCarga.then(
+                () => this.notificar(EventosDelServicioDeNotas.notasCargadas, repositorioDeNotasEnUso.getNotas())
+            ).catch(
+                () => {
+                    funcionCierreOverlayNormal();
+                    const funcionCierre = mostrarOverlayError(promesaDeCarga)
+                    setTimeout(() => {
+                        funcionCierre()
+                        this.inicializar()
+                    }, 5000);
+                }
+            );
+        }
     }
 
     crearNuevaNota(texto = ValoresPorDefecto.texto, color = ValoresPorDefecto.color){
@@ -106,5 +125,73 @@ class NotasService {
     }
     
 }
+
+
+function mostrarOverlayCargando( promesa ){
+    return mostrarOverlay(
+        {
+            titulo: {
+                texto: 'Estamos cargando las notas',
+                caracteristicas: {
+                    velocidad: 20,
+                    cursor: '',
+                    estiloTexto: 'titulo-overlay',
+                },
+            }, 
+            mensaje: {
+                texto: 'Tardaremos solamente unos segundos',
+                caracteristicas: {
+                    velocidad: 120,
+                    cursor: '_',
+                    velocidadParpadeoCursor: 300,
+                    estiloTexto: 'texto-overlay',
+                    estiloCursor: 'texto-overlay',
+                    ocultarCursorAlFinalizar: false
+                },
+            },
+            fondo: {
+                color: '#ddffdddd',
+                imagen: 'overlay.jpg',
+                transparencia: 0.2,
+            }
+        },
+        promesa
+    );
+}
+
+function mostrarOverlayError( promesa ){
+    return mostrarOverlay(
+        {
+            titulo: {
+                texto: 'Error al cargar las notas',
+                caracteristicas: {
+                    velocidad: 20,
+                    cursor: '',
+                    estiloTexto: 'titulo-overlay',
+                },
+            }, 
+            mensaje: {
+                texto: 'Lo reintentaremos en unos segundos',
+                caracteristicas: {
+                    velocidad: 120,
+                    cursor: '_',
+                    velocidadParpadeoCursor: 300,
+                    estiloTexto: 'texto-overlay',
+                    estiloCursor: 'texto-overlay',
+                    ocultarCursorAlFinalizar: false
+                },
+            },
+            fondo: {
+                color: '#ff5555dd',
+                imagen: 'overlay.jpg',
+                transparencia: 0.2,
+            }
+        },
+        promesa
+    );
+}
+
+
+
 
 export const notasService = new NotasService();
