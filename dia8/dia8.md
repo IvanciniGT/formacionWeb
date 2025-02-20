@@ -38,3 +38,12 @@ localStorage.clear();
 - Ir guardando los valores con los que se ha rellenado un formulario
 
 OJO: No está considerado un almacenamiento seguro.
+
+
+----
+
+document.addEventListener("visibilitychange" , 
+    ()=>{
+        document.visibilityState === 'visible' ? console.log('La pestaña está visible') : console.log('La pestaña está oculta');
+    }
+);

@@ -9,7 +9,7 @@ export const ValoresPorDefecto = Object.freeze({
 });
 
 export const EventosDelServicioDeNotas = Object.freeze({
-    notaCargada: 'notaCargada',
+    notasCargadas: 'notasCargadas',
     notaCreada: 'notaCreada',
     notaEliminada: 'notaEliminada',
     notaRestaurada: 'notaRestaurada',
@@ -22,6 +22,16 @@ class NotasService {
 
     constructor(){
         this.listeners = new Map();
+        document.addEventListener("visibilitychange" , 
+            ()=>{
+                if(document.visibilityState === 'visible'){
+                    if(repositorioDeNotasEnUso.recargarNotas){
+                        repositorioDeNotasEnUso.recargarNotas();
+                        this.notificar(EventosDelServicioDeNotas.notasCargadas, repositorioDeNotasEnUso.getNotas());
+                    }
+                } 
+            }
+        );
     }
 
     crearNuevaNota(texto = ValoresPorDefecto.texto, color = ValoresPorDefecto.color){
@@ -80,13 +90,12 @@ class NotasService {
     }
 
     addEventListener(evento, callback){
-        if(evento === EventosDelServicioDeNotas.notaCargada){
-            repositorioDeNotasEnUso.getNotas().forEach(nota => callback(nota));
-        } else {
-            if(!this.listeners.has(evento)){
-                this.listeners.set(evento, []);
-            }
-            this.listeners.get(evento).push(callback);
+        if(!this.listeners.has(evento)){
+            this.listeners.set(evento, []);
+        }
+        this.listeners.get(evento).push(callback);
+        if(evento === EventosDelServicioDeNotas.notasCargadas){
+            callback(repositorioDeNotasEnUso.getNotas());
         }
     }
 

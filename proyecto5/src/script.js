@@ -52,6 +52,7 @@ function configurarListenerDelDocumento(){
             }
         }        
     );
+
 }
 
 function configurarListenerDelBotonDePapelera(){
@@ -121,17 +122,27 @@ function configurarListenerDelPanelDeBotones(){
             }
         }
     );}
+function cargarNotasIniciales(){
+    notasService.addEventListener(
+        EventosDelServicioDeNotas.notaCargada, 
+        (nota) => {
+            generarNotaHTML(nota);
+        }
+    );
 
+}
 function configurarListenersDeEventosDelServicioDeNotas(){
+    cargarNotasIniciales();
     // Todos estos eventos los configuro en el Servicio de Notas
     // Cuando se vacíe la papelera de reciclaje:
         // cambiarIconoDeLaPapeleraDeReciclaje()
     // Cuando se restaure una nota:
         // generarNotaHTML(nota)
     notasService.addEventListener(
-        EventosDelServicioDeNotas.notaCargada, 
-        (nota) => {
-            generarNotaHTML(nota);
+        EventosDelServicioDeNotas.notasCargadas, 
+        (notas) => {
+            document.getElementById("notas").querySelector("ol").innerHTML = "";
+            notas.forEach(nota => generarNotaHTML(nota));
         }
     );
     notasService.addEventListener(
@@ -141,7 +152,7 @@ function configurarListenersDeEventosDelServicioDeNotas(){
             convertirNotaEnEditable(nota);
         }
     );
-    notasService.addEventListener(
+        notasService.addEventListener(
         EventosDelServicioDeNotas.notaModificada,
         (nota) => modificarHTMLNota(nota)
     );
@@ -177,8 +188,8 @@ function generarLaEstructuraBasicaHTMLDeLasNotas(){
                 </ul>
             </nav>
             <ol>
-                <template id="nota-template"><li></li></template>
             </ol>
+            <template id="nota-template"><li></li></template>
         `;
     document.body.appendChild(aside);
 }

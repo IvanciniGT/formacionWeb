@@ -4,6 +4,10 @@ export class NotasInLocalStorageRepository extends NotasInRAMRepository{
 
   constructor() {
     super();
+    this.recargarNotas();
+  }
+
+  recargarNotas(){
     this.leerNotasDelLocalStorage();
   }
 
