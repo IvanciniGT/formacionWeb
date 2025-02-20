@@ -129,6 +129,12 @@ function configurarListenersDeEventosDelServicioDeNotas(){
     // Cuando se restaure una nota:
         // generarNotaHTML(nota)
     notasService.addEventListener(
+        EventosDelServicioDeNotas.notaCargada, 
+        (nota) => {
+            generarNotaHTML(nota);
+        }
+    );
+    notasService.addEventListener(
         EventosDelServicioDeNotas.notaCreada, 
         (nota) => {
             generarNotaHTML(nota);

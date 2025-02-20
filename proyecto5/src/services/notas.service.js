@@ -9,6 +9,7 @@ export const ValoresPorDefecto = Object.freeze({
 });
 
 export const EventosDelServicioDeNotas = Object.freeze({
+    notaCargada: 'notaCargada',
     notaCreada: 'notaCreada',
     notaEliminada: 'notaEliminada',
     notaRestaurada: 'notaRestaurada',
@@ -79,10 +80,14 @@ class NotasService {
     }
 
     addEventListener(evento, callback){
-        if(!this.listeners.has(evento)){
-            this.listeners.set(evento, []);
+        if(evento === EventosDelServicioDeNotas.notaCargada){
+            repositorioDeNotasEnUso.getNotas().forEach(nota => callback(nota));
+        } else {
+            if(!this.listeners.has(evento)){
+                this.listeners.set(evento, []);
+            }
+            this.listeners.get(evento).push(callback);
         }
-        this.listeners.get(evento).push(callback);
     }
 
     notificar(evento, datos){
