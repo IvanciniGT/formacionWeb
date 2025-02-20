@@ -2,22 +2,62 @@
   "notasBorradas": [],
   "notas": [
     {
-      "id": "nota-2956946469",
-      "texto": "Primera nota modificada",
-      "color": "yellow",
-      "posicion": {
-        "x": 450,
-        "y": 43
-      },
-      "ancho": 300
-    },
-    {
       "id": "nota-3942469937",
       "texto": "Segunda nota modificada editado",
       "color": "yellow",
       "posicion": {
         "x": 111,
         "y": 327
+      },
+      "ancho": 300
+    },
+    {
+      "id": "nota-4286163011",
+      "texto": "Escribe aquí tu nota...",
+      "color": "yellow",
+      "posicion": {
+        "x": 116,
+        "y": 517
+      },
+      "ancho": 300
+    },
+    {
+      "id": "nota-8791900081",
+      "texto": "Escribe aquí tu nota...",
+      "color": "yellow",
+      "posicion": {
+        "x": 112,
+        "y": 390
+      },
+      "ancho": 300
+    },
+    {
+      "id": "nota-8033706428",
+      "texto": "Otra nota",
+      "color": "yellow",
+      "posicion": {
+        "x": 510,
+        "y": 567
+      },
+      "ancho": 300
+    },
+    {
+      "id": "nota-3806821586",
+      "texto": "Nueva nota",
+      "color": "yellow",
+      "posicion": {
+        "x": 113,
+        "y": 455
+      },
+      "ancho": 300
+    },
+    {
+      "id": "nota-0176667594",
+      "texto": "Ultima nota",
+      "color": "yellow",
+      "posicion": {
+        "x": 109,
+        "y": 582
       },
       "ancho": 300
     }

@@ -53,7 +53,7 @@ class NotasService {
         }
     }
 
-    crearNuevaNota(texto = ValoresPorDefecto.texto, color = ValoresPorDefecto.color){
+    async crearNuevaNota(texto = ValoresPorDefecto.texto, color = ValoresPorDefecto.color){
         const x = ( document.documentElement.clientWidth - ValoresPorDefecto.ancho ) / 2;
         const y = ( document.documentElement.clientHeight - 100 ) / 2; //TODO.. ese 100 no me gusta
         const posicion = { x, y };
@@ -64,7 +64,10 @@ class NotasService {
                                     color
                                 );
         const nuevaNotaConId = repositorioDeNotasEnUso.addNota(nuevaNota);
-        this.notificar(EventosDelServicioDeNotas.notaCreada, nuevaNotaConId);
+
+        nuevaNotaConId.then(
+            (nuevaNota)=>this.notificar(EventosDelServicioDeNotas.notaCreada, nuevaNota)
+            );
         return nuevaNotaConId;
     }
 

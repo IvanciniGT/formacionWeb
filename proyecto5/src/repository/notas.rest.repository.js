@@ -13,11 +13,11 @@ export class NotasRestRepository extends NotasInRAMRepository{
     return this.leerNotasDelServicioRest();
   }
 
-  addNota(nota) {
+  async addNota(nota) {
     const nuevaNota = super.addNota(nota);
     // No la meto en el localSotage()
-    this.persistirNotasEnServicioRest();
-    return nuevaNota;
+    const promesa = this.hacerPeticionPOST(RUTA_BASE_API+"/notas", nuevaNota);
+    return promesa;
   }
 
   async updateNota(nota) {
@@ -69,6 +69,27 @@ export class NotasRestRepository extends NotasInRAMRepository{
 
   async hacerPeticionPOST(url, nota){
 
+    const promesa = new Promise((resolve, reject) => 
+      //  Aquí va el código asíncrono
+              fetch(url, {
+                            "method": "POST",
+                            "headers": {
+                              "Content-Type": "application/json"
+                            },
+                            "body": JSON.stringify(nota)
+                          }
+                    )
+                    .then( respuesta => respuesta.json() )
+                    .then( notasJson => {
+                      resolve(notasJson);
+                    })
+                  .catch( error => {
+                                      reject(error) 
+                                    }
+                )
+            
+        );
+  return promesa;
   }
 
   async hacerPeticionPUT(url, nota){

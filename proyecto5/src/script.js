@@ -154,6 +154,7 @@ function configurarListenersDeEventosDelServicioDeNotas(){
     notasService.addEventListener(
         EventosDelServicioDeNotas.notaCreada, 
         (nota) => {
+            console.log("Nota creada", nota);
             generarNotaHTML(nota);
             convertirNotaEnEditable(nota);
         }
