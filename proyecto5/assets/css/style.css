@@ -95,10 +95,19 @@
     overflow-wrap: break-word;
     transition: opacity 0.5s, transform 0.5s;
 }
+#notas ol li .resizer { 
+    width: 10px; 
+    height: 10px; 
+    background: blue; 
+    position:absolute; 
+    right: 0; 
+    bottom: 0; 
+    cursor: we-resize; 
+}
 
 #notas ol li.eliminar {
-    opacity: 0;
-    transform: scale(0.5);
+    opacity: 0.25;
+    transform: scale(0) rotate(180deg);
 }
 
 #notas ol li::after {
@@ -140,10 +149,17 @@
     margin: 0;
     width: 100%;
     border: none !important;
-    outline:0 none !important;
+    outline: 0 none !important;
     field-sizing: content;
+    border-image-width: 0 !important;
+    resize: none;
+
 }
 
 #notas ol li textarea:focus {
     color: #008;
+    outline: 0 none !important;
+    padding: 0;
+    margin: 0;
+    border-image-width: 0 !important;
 }

@@ -2,6 +2,7 @@ import {notasService, EventosDelServicioDeNotas, ValoresPorDefecto} from "./serv
 
 let elementoAMover;
 let posicionNavegador ={x:undefined,y:undefined};
+let movido = false;
 
 export function usarNotas(){
     generarLaEstructuraBasicaHTMLDeLasNotas();
@@ -27,6 +28,7 @@ function configurarListenerDelDocumento(){
     document.addEventListener("mousemove",
         (informacionDelEvento)=>{
             if(elementoAMover){
+                movido=true;
                 let nuevaPosicionX = informacionDelEvento.clientX - posicionNavegador.x;
                 let nuevaPosicionY = informacionDelEvento.clientY - posicionNavegador.y;
                 
@@ -56,10 +58,15 @@ function configurarListenerDelBotonDePapelera(){
     const papelera = document.getElementById("papelera");
     // Click: Mostrar en pantalla las notas eliminadas
     // MouseUp: Eliminar una nota, si estoy moviendo una
-    papelera.addEventListener("mouseup", () => {
-        if(elementoAMover){
+    papelera.addEventListener("mouseup", (informacionDelEvento) => {
+        if(elementoAMover?.id.startsWith("nota")){
             notasService.eliminarNota(elementoAMover.id);
+            elementoAMover=undefined;
         }
+        informacionDelEvento.stopPropagation();
+    });
+    papelera.addEventListener("mousedown", (informacionDelEvento) => {
+        informacionDelEvento.stopPropagation();
     });
     papelera.addEventListener("mouseenter", () => {
         if(elementoAMover){
@@ -75,7 +82,7 @@ function configurarListenerDelBotonDeActivar(){
     // Click: Mostrar en pantalla todas las notas
     document.getElementById("activar").addEventListener(
         "click", 
-        () => clickEnBotonNotas()
+        () => !movido && clickEnBotonNotas()
     );
 }
 
@@ -84,11 +91,36 @@ function configurarListenerDelBotonDeNuevaNota(){
         "click", 
         () => notasService.crearNuevaNota()
     );
+
+    document.getElementById("nuevaNota").addEventListener("mousedown", (informacionDelEvento) => {
+        informacionDelEvento.stopPropagation();
+    });
 }
 
 function configurarListenerDelPanelDeBotones(){
-    // MouseDown/Move/Over: Mover el panel de botones
-}
+    const panelDeBotones = document.querySelector("#notas nav");
+    panelDeBotones.addEventListener("mousedown",
+        (informacionDelEvento)=>{
+            movido=false;
+            if(informacionDelEvento.button === 0){
+                elementoAMover = panelDeBotones;
+                posicionNavegador.x = informacionDelEvento.offsetX;
+                posicionNavegador.y = informacionDelEvento.offsetY;
+                panelDeBotones.style.cursor = "grabbing";
+                informacionDelEvento.preventDefault();
+            }
+        }
+    );
+
+    panelDeBotones.addEventListener("mouseup",
+        (informacionDelEvento)=>{
+            if(informacionDelEvento.button === 0){
+                panelDeBotones.style.cursor = "pointer";
+                elementoAMover = undefined;
+                informacionDelEvento.stopPropagation();
+            }
+        }
+    );}
 
 function configurarListenersDeEventosDelServicioDeNotas(){
     // Todos estos eventos los configuro en el Servicio de Notas
@@ -112,11 +144,17 @@ function configurarListenersDeEventosDelServicioDeNotas(){
         (id) => {
             const notaElement = document.getElementById(id);
             notaElement.addEventListener("transitionend", () => {
-                document.getElementById(id).remove();
+                document.getElementById(id)?.remove();
                 elementoAMover = undefined;
                 document.getElementById("papelera").classList.remove("open");
             });
             notaElement.classList.add("eliminar");
+
+            notaElement.style.transition = "all 0.5s ease";
+            const left = document.getElementById("papelera").getBoundingClientRect().left - notaElement.offsetWidth/2;
+            notaElement.style.left = `${left}px`;
+            const top = document.getElementById("papelera").getBoundingClientRect().top - 10;
+            notaElement.style.top = `${top}px`;
         }
     );
 }
@@ -148,25 +186,38 @@ function generarNotaHTML(nota){
 
     notaElement.addEventListener("mousedown",
         (informacionDelEvento)=>{
-            elementoAMover = notaElement;
-            posicionNavegador.x = informacionDelEvento.offsetX;
-            posicionNavegador.y = informacionDelEvento.offsetY;
-            notaElement.style.cursor = "grabbing";
-            informacionDelEvento.preventDefault();
+            if(informacionDelEvento.button === 0){
+                if(!notaElement.querySelector("textarea")){
+                    elementoAMover = notaElement;
+                    posicionNavegador.x = informacionDelEvento.offsetX;
+                    posicionNavegador.y = informacionDelEvento.offsetY;
+                    notaElement.style.cursor = "grabbing";
+                }
+                informacionDelEvento.stopPropagation();
+                informacionDelEvento.preventDefault();
+            }
         }
     );
 
     notaElement.addEventListener("mouseup",
         (informacionDelEvento)=>{
-            notaElement.style.cursor = "pointer";
-            elementoAMover = undefined;
-            notasService.modificarUbicacionDeLaNota(
-                nota.id, 
-                {x:notaElement.offsetLeft, y:notaElement.offsetTop}
-            );
+            if(informacionDelEvento.button === 0){
+                notaElement.style.cursor = "pointer";
+                elementoAMover = undefined;
+                notasService.modificarUbicacionDeLaNota(
+                    nota.id, 
+                    {x:notaElement.offsetLeft, y:notaElement.offsetTop}
+                );
+            }
         }
     );
-   
+    notaElement.addEventListener("dblclick", 
+        (e) => {
+            if(!notaElement.querySelector("textarea"))
+                convertirNotaEnEditable(nota);
+        }
+    );
+
 }
 
 function convertirNotaEnEditable(nota){
@@ -189,7 +240,6 @@ function convertirNotaEnEditable(nota){
     );
     textarea.focus();
     textarea.setSelectionRange(textarea.value.length, textarea.value.length);
-    notaElement.removeEventListener("dblclick", () => convertirNotaEnEditable(nota));
 
 }
 
@@ -207,8 +257,10 @@ function modificarHTMLNota(nota){
     notaElement.style.top = `${nota.posicion.y}px`;
     notaElement.style.left = `${nota.posicion.x}px`;
     notaElement.style.width = `${nota.ancho}px`;
-    notaElement.addEventListener("dblclick", () => convertirNotaEnEditable(nota));
-    notaElement.textContent = nota.texto;
+    try{
+        notaElement.innerHTML = nota.texto;
+    } catch(e) {
+    }
 }
 
 function cambiarIconoDeLaPapeleraDeReciclaje(){
